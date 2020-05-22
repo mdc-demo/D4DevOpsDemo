@@ -30,13 +30,9 @@ stages:
       vmImage: $(vmImageName)
       
     steps:
-    - task: CopyFiles@2
+    - task: Npm@0
       inputs:
-        Contents: '**/package.json'
-        TargetFolder: '$(System.DefaultWorkingDirectory)'
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
+        cwd: Application
       displayName: 'Install Node.js'
 
     - script: |        
