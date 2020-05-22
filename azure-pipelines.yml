@@ -36,8 +36,8 @@ stages:
       displayName: 'Install Node.js'
 
     - script: |
-        workingDirectory: '$(Build.SourcesDirectory)/NodeCosmosAKSDemo/Application'
         npm install
+        npm init
         npm run build --if-present
         npm run test --if-present
       displayName: 'npm install, build and test'
