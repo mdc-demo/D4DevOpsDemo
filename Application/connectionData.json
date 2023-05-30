@@ -1,4 +1,6 @@
 {
     "databaseName": "sampledatabase",
-    "collectionName": "samplecollection"
+    "collectionName": "samplecollection",
+    "username": "admin",
+    "password" : "testpassword"
 }
