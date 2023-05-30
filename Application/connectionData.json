@@ -1,4 +1,5 @@
 {
     "databaseName": "sampledatabase",
-    "collectionName": "samplecollection"
+    "collectionName": "samplecollection",
+    "password": "testpwd"
 }
