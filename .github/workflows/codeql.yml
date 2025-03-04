@@ -75,7 +75,26 @@ jobs:
         category: "/language:${{matrix.language}}"
         
         
-     
+    - name: Put CodeQL on the path
+      env:
+       CODEQL_PATH: '${{ steps.init.codeql-path }}'
+      run: |
+       echo "Path to executable: $CODEQL_PATH"
+       dirname "$CODEQL_PATH" >> $GITHUB_PATH   
+       
+    - name: Check Vulnerabilities
+      id: vulnerabilities
+      run: |
+        echo "check 1"
+        results=$(CODEQL_PATH bqrs decode --format=csv javascript.sarif | awk -F',' '{if($3 == "High" || $3 == "Critical") print}')
+        echo "check 2"
+        if [ -n "$results" ]; then
+          echo "name=has_vulnerabilities::true" >> $GITHUB_STATE
+          echo "$results"
+        else
+          echo "name=has_vulnerabilities::false" >> $GITHUB_STATE
+        fi 
+        
     - name: Fail on High Severity Issues
       run: |
           HIGH_ISSUES=$(jq '[.runs[].results[] | select(.rule.properties.severity == "error")] | length' javascript.sarif)
