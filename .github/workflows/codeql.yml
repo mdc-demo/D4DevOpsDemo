@@ -77,7 +77,7 @@ jobs:
         output: results.sarif  # Generate SARIF report
         
     - name: Fail on High Severity Issues
-        run: |
+      run: |
           HIGH_ISSUES=$(jq '[.runs[].results[] | select(.rule.properties.severity == "High")] | length' results.sarif)
           if [ "$HIGH_ISSUES" -gt 0 ]; then
             echo "🚨 High-severity CodeQL issues found: $HIGH_ISSUES. Failing the PR!"
