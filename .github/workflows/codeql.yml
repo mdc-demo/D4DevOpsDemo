@@ -74,3 +74,14 @@ jobs:
       uses: github/codeql-action/analyze@v2
       with:
         category: "/language:${{matrix.language}}"
+        output: results.sarif  # Generate SARIF report
+        
+    - name: Fail on High Severity Issues
+        run: |
+          HIGH_ISSUES=$(jq '[.runs[].results[] | select(.rule.properties.severity == "High")] | length' results.sarif)
+          if [ "$HIGH_ISSUES" -gt 0 ]; then
+            echo "🚨 High-severity CodeQL issues found: $HIGH_ISSUES. Failing the PR!"
+            exit 1
+          else
+            echo "✅ No high-severity issues detected."
+          fi
